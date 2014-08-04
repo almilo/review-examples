@@ -14,10 +14,11 @@ module.exports = function (config) {
         ],
 
         preprocessors: {
-            '**/*.html': ['ng-html2js']
+            '**/*.html': ['ng-html2js'],
+            'src/app/**/!(*spec).js': ['coverage']
         },
 
-        reporters: ['dots'],
+        reporters: ['dots', 'coverage'],
 
         browsers: ['Chrome'],
         autoWatch: true,
@@ -27,6 +28,11 @@ module.exports = function (config) {
             stripPrefix: 'src/app/',
             prependPrefix: 'production/',
             moduleName: 'app'
+        },
+
+        coverageReporter: {
+            type: 'html',
+            dir: 'coverage/'
         }
     });
 };
