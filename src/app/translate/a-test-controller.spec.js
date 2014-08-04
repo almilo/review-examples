@@ -1,26 +1,18 @@
 describe('A test controller', function () {
-    var aTestServiceMock, createController;
+    var aTestServiceMock;
 
-    beforeEach(module('app', function($provide) {
-        aTestServiceMock = jasmine.createSpyObj('aTestServiceMock', ['say']);
-        $provide.value('aTestService', aTestServiceMock);
+    beforeEach(module('app', function ($provide) {
+        aTestServiceMock = createMock($provide, 'aTestService', ['say']);
     }));
 
-    beforeEach(inject(function($controller, $rootScope) {
-        createController = function() {
-            var scope = $rootScope.$new();
-            $controller('aTestController', {$scope: scope});
-
-            return scope;
-        };
-    }));
+    beforeEach(inject());
 
     it('must get injected the specifically mocked service and an application-wide mocked $translate service', function () {
         aTestServiceMock.say.andReturn('Hello World!!');
 
-        var scope = createController();
+        var controller = createController('aTestController');
 
-        expect(scope.language).toEqual({locale: 'en'});
-        expect(scope.say).toBe('Hello World!!');
+        expect(controller._scope.language).toEqual({locale: 'en'});
+        expect(controller._scope.say).toBe('Hello World!!');
     });
 });
